@@ -12,7 +12,8 @@ ln -s /u01/app/oracle-product $ORACLE_BASE/product
 echo | $ORACLE_BASR/product/11.2.0/db_1/root.sh> /dev/null 2>&1 || true
 
 #setting correct timezone, as UTC is not supported by Oracle EM
-echo y | cp -f /usr/share/zoneinfo/Europe/Minsk /etc/localtime
+echo y | cp -f /usr/share/zoneinfo/${TZ}  /etc/localtime
+
 
 start_listener(){
  gosu oracle echo "LISTENER = (DESCRIPTION_LIST = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = $(hostname))(PORT = 1521))))" > $ORACLE_HOME/network/admin/listener.ora
@@ -122,6 +123,7 @@ case "$1" in
 		echo "Done with scripts we are ready to go"		
 
 		while [ "$END" == '' ]; do
+		       chown -R oracle:oinstall /u01/app/oracle/dbs
 			sleep 1
 			trap "shutdown_database" INT TERM
 		done

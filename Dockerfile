@@ -9,13 +9,10 @@ ENV PATH=$ORACLE_HOME/bin:$PATH
 ENV ORACLE_HOME_LISTNER=$ORACLE_HOME
 ENV ORACLE_SID=orcl
 ENV ORACLE_SRC_INSTALL_DIR=/install/database
-
+ENV TZ=Etc/GMT-3
 
 #Prereq
-RUN yum -y install oracle-rdbms-server-11gR2-preinstall.x86_64 && \
-    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
-    yum install -y rlwrap && \
-    yum install -y java-devel unzip && \
+RUN yum -y install oracle-rdbms-server-11gR2-preinstall.x86_64 java-devel unzip && \
     yum clean all && \ 
     rm -rf /var/lib/{cache,log} /var/log/lastlog && \
     curl -o /usr/local/bin/gosu -SL 'https://github.com/tianon/gosu/releases/download/1.4/gosu-amd64' && chmod +x /usr/local/bin/gosu && \
